@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form th:action="@{/admin/edit/{id}(id = ${user.id})}" th.object="${user}" th:method="post">
+    <input type="hidden" th:field="*{user.id}">
+    <div>
+        <label>username</label>
+        <input type="text" th:field="*{user.username}"/>
+    </div>
+    <div>
+        <label>password</label>
+        <input type="text" th:field="*{user.password}"/>
+    </div>
+    <div>
+        <label>roles</label>
+        <select multiple="multiple" th:field="*{user.roles}">
+            <option th:each="role : ${roles}" th:field="*{user.roles}" th:value="${role.id}" th:text="${role.getRole()}">
+        </select>
+    </div>
+    <div>
+        <button type="submit">Edit user</button>
+    </div>
+</form>
+
+</body>
+</html>

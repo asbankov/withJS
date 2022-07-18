@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Admin page</h1>
+<table>
+    <thead>
+    <tr>
+        <th>username</th>
+        <th>password</th>
+        <th>role</th>
+        <th>action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, iterStat : ${users}">
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getPassword()}"></td>
+        <td th:each="role:${user.getRoles()}">
+            <th:block th:text="${role.getRole()}"></th:block>
+        </td>
+        <td>
+            <a th:href="@{'/admin/edit/' + ${user.id}}">edit</a>
+            <a th:href="@{'/admin/delete/' + ${user.id}}">delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p><b><a href="/admin/add">Add new user</a></b></p>
+<p><b><a href="/logout">Log out</a></b></p>
+</body>
+</html>
