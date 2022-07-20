@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -20,9 +22,14 @@ public class AdminController {
 	}
 
 	@GetMapping()
-	public String showUsers(ModelMap model) {
+	public String showUsers(Principal principal, ModelMap model) {
+		//System.out.println("OK");
+		User user = (User) userService.loadUserByUsername(principal.getName());
 		List<User> users = userService.listUsers();
 		model.addAttribute("users", users);
+		model.addAttribute("adminUser", user);
+		model.addAttribute("newUser", new User());
+		model.addAttribute("roles", userService.listRoles());
 		return "admin";
 	}
 
@@ -51,6 +58,10 @@ public class AdminController {
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
 	public String editUser(ModelMap model, @ModelAttribute User user, @PathVariable long id) {
 		user.setId(id);
+		/*System.out.println("Roles");
+		for (Role role : user.getRoles()) {
+			System.out.println(role.getPrintRole());
+		}*/
 		userService.edit(user);
 		return "redirect:/admin";
 	}
@@ -58,6 +69,7 @@ public class AdminController {
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deletePage(ModelMap model, @PathVariable long id) {
 		User user = userService.getByID(id);
+		System.out.println(user.getFirstName());
 		userService.delete(user);
 		return "redirect:/admin";
 	}

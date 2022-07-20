@@ -45,7 +45,9 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
     public void edit(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));;
+        if (!user.getPassword().equals(getByID(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
@@ -69,9 +71,12 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = new User();
+        /*User user = new User();
         user.setUsername("user");
         user.setPassword("user");
+        user.setAge(23);
+        user.setFirstName("Anton");
+        user.setLastName("Bankov");
         Role userRole = new Role();
         userRole.setRole("ROLE_USER");
         Set<User> users = new HashSet<> ();
@@ -87,6 +92,9 @@ public class UserServiceImpl implements UserDetailsService {
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword("admin");
+        admin.setAge(22);
+        admin.setFirstName("Maria");
+        admin.setLastName("Pirog");
         Role adminRole = new Role();
         adminRole.setRole("ROLE_ADMIN");
         users = new HashSet<> ();
@@ -97,9 +105,8 @@ public class UserServiceImpl implements UserDetailsService {
         admin.setRoles(roles);
         if (userRepository.findByUsername("admin") == null) {
             addFirst(admin, adminRole);
-        }
-
-        user = userRepository.findByUsername(username);
+        }*/
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

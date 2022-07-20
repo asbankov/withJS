@@ -31,6 +31,16 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
+    public String getPrintRole() {
+        if (role.contains("ADMIN")) {
+            return "ADMIN";
+        } else if (role.contains("USER")) {
+            return "USER";
+        } else {
+            return "";
+        }
+    }
+
     public Long getId() {
         return id;
     }
