@@ -179,9 +179,9 @@ deleteModal.addEventListener('submit', (e) => {
     fetch(deleteUrl + `/${id}`, {
         method: 'DELETE',
     })
-        .then(data => getAllUsers(data))
+        .then(data => data.json())
         .catch(error => console.log(error))
-        .then(refreshUsersTable)
+        .then(getAllUsers)
     newDeleteModal.hide()
 
 })
@@ -218,6 +218,6 @@ editModal.addEventListener('submit', (e) => {
     })
         .then(data => data.json())
         .catch(error => console.log(error))
-        .then(refreshUsersTable)
+        .then(getAllUsers)
     newEditModal.hide()
 })
