@@ -20,9 +20,9 @@ import java.util.TreeSet;
 
 @Transactional
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
-    //private UserDao userDao;
+
 
     private BCryptPasswordEncoder passwordEncoder;
     private UserRepository userRepository;
@@ -71,41 +71,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        /*User user = new User();
-        user.setUsername("user");
-        user.setPassword("user");
-        user.setAge(23);
-        user.setFirstName("Anton");
-        user.setLastName("Bankov");
-        Role userRole = new Role();
-        userRole.setRole("ROLE_USER");
-        Set<User> users = new HashSet<> ();
-        users.add(user);
-        userRole.setUsers(users);
-        Set<Role> roles = new HashSet<>();
-        roles.add(userRole);
-        user.setRoles(roles);
-        if (userRepository.findByUsername("user") == null) {
-            addFirst(user, userRole);
-        }
-
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword("admin");
-        admin.setAge(22);
-        admin.setFirstName("Maria");
-        admin.setLastName("Pirog");
-        Role adminRole = new Role();
-        adminRole.setRole("ROLE_ADMIN");
-        users = new HashSet<> ();
-        users.add(admin);
-        adminRole.setUsers(users);
-        roles = new HashSet<>();
-        roles.add(adminRole);
-        admin.setRoles(roles);
-        if (userRepository.findByUsername("admin") == null) {
-            addFirst(admin, adminRole);
-        }*/
         User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
